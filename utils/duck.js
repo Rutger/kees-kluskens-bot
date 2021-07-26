@@ -6,7 +6,7 @@ module.exports = function duckSearch(value) {
     query
   )}&kl=nl-nl`;
 
-  got(url).then((response) => {
+  return got(url).then((response) => {
     const responseUrl = response.body
       .match(/=http(.*?)(?=')/)[0]
       .substring(1)
