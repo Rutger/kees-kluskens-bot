@@ -1,4 +1,5 @@
 const got = require('got');
+const duckSearch = require('../utils/duck');
 
 module.exports = function (bot) {
   bot.onText(/\?\?$/, (msg) => {
@@ -8,17 +9,8 @@ module.exports = function (bot) {
       return;
     }
 
-    const url = `https://duckduckgo.com/?q=!ducky+${encodeURIComponent(
-      query
-    )}&kl=nl-nl`;
-
-    got(url).then((response) => {
-      const responseUrl = response.body
-        .match(/=http(.*?)(?=')/)[0]
-        .substring(1);
-      const responseUrlDecoded = decodeURIComponent(responseUrl);
-
-      bot.sendMessage(msg.chat.id, responseUrlDecoded);
+    duckSearch(query).then((url) => {
+      bot.sendMessage(msg.chat.id, url);
     });
   });
 

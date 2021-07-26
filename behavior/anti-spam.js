@@ -1,5 +1,5 @@
 const _ = require('lodash');
-const got = require('got');
+const duckSearch = require('../utils/duck');
 
 const conversations = [];
 
@@ -15,18 +15,8 @@ module.exports = function (bot) {
     }
 
     if (conversation && msg.text.match(/^\?\?*.$/)) {
-      const query = conversation.lastMessage.text.replace(/[^a-zA-Z0-9 ]/g, '');
-      const url = `https://duckduckgo.com/?q=!ducky+${encodeURIComponent(
-        query
-      )}&kl=nl-nl`;
-
-      got(url).then((response) => {
-        const responseUrl = response.body
-          .match(/=http(.*?)(?=')/)[0]
-          .substring(1);
-        const responseUrlDecoded = decodeURIComponent(responseUrl);
-
-        bot.sendMessage(msg.chat.id, responseUrlDecoded);
+      duckSearch(conversation.lastMessage.text).then((url) => {
+        bot.sendMessage(msg.chat.id, url);
       });
 
       return;
