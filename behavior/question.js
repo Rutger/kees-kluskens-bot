@@ -14,7 +14,7 @@ module.exports = function (bot) {
     });
   });
 
-  bot.onText(/\?\?\💩$/, (msg) => {
+  bot.onText(/\?\?💩$/, (msg) => {
     const query = msg.text.replace(/\?/g, '').slice(0, -2);
 
     if (!query) {
